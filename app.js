@@ -1,13 +1,13 @@
-// =====================
-// LocalStorage Keys
-// =====================
+// =====================================
+// Storage
+// =====================================
 
 const STORAGE_PLAYERS = "ito_players";
 const STORAGE_CUSTOM_THEMES = "ito_custom_themes";
 
-// =====================
+// =====================================
 // State
-// =====================
+// =====================================
 
 let players = [];
 let customThemes = [];
@@ -20,28 +20,13 @@ let currentPlayerIndex = 0;
 
 let predictedOrder = [];
 
+let revealOrder = [];
+
 let revealIndex = 0;
 
-// =====================
-// Screen Helper
-// =====================
-
-function showScreen(id) {
-
-    document
-        .querySelectorAll(".screen")
-        .forEach(screen => {
-            screen.classList.remove("active");
-        });
-
-    document
-        .getElementById(id)
-        .classList.add("active");
-}
-
-// =====================
-// Load
-// =====================
+// =====================================
+// Init
+// =====================================
 
 window.addEventListener("DOMContentLoaded", () => {
 
@@ -53,22 +38,40 @@ window.addEventListener("DOMContentLoaded", () => {
 
 });
 
-// =====================
+// =====================================
+// Screen
+// =====================================
+
+function showScreen(screenId) {
+
+    document
+        .querySelectorAll(".screen")
+        .forEach(screen => {
+            screen.classList.remove("active");
+        });
+
+    document
+        .getElementById(screenId)
+        .classList.add("active");
+}
+
+// =====================================
 // Storage
-// =====================
+// =====================================
 
 function loadStorage() {
 
     players =
         JSON.parse(
             localStorage.getItem(STORAGE_PLAYERS)
-        ) || [""];
+        ) || ["", ""];
 
     customThemes =
         JSON.parse(
-            localStorage.getItem(STORAGE_CUSTOM_THEMES)
+            localStorage.getItem(
+                STORAGE_CUSTOM_THEMES
+            )
         ) || [];
-
 }
 
 function savePlayers() {
@@ -77,7 +80,6 @@ function savePlayers() {
         STORAGE_PLAYERS,
         JSON.stringify(players)
     );
-
 }
 
 function saveCustomThemes() {
@@ -86,192 +88,226 @@ function saveCustomThemes() {
         STORAGE_CUSTOM_THEMES,
         JSON.stringify(customThemes)
     );
-
 }
 
-// =====================
-// Player UI
-// =====================
-
-function renderPlayers() {
-
-    const list =
-        document.getElementById("player-list");
-
-    list.innerHTML = "";
-
-    players.forEach((name, index) => {
-
-        const input =
-            document.createElement("input");
-
-        input.type = "text";
-
-        input.className = "player-input";
-
-        input.value = name;
-
-        input.placeholder =
-            `プレイヤー${index + 1}`;
-
-        input.addEventListener("input", e => {
-
-            players[index] = e.target.value;
-
-            savePlayers();
-
-        });
-
-        list.appendChild(input);
-
-    });
-
-    document.getElementById(
-        "player-count"
-    ).textContent =
-        `登録人数：${players.filter(v => v.trim()).length}人`;
-
-}
-
-// =====================
+// =====================================
 // Events
-// =====================
+// =====================================
 
 function bindEvents() {
 
     document
         .getElementById("add-player-btn")
-        .addEventListener("click", addPlayer);
+        .addEventListener(
+            "click",
+            addPlayer
+        );
+
+    document
+        .getElementById("remove-player-btn")
+        .addEventListener(
+            "click",
+            removePlayer
+        );
 
     document
         .getElementById("start-game-btn")
-        .addEventListener("click", startGame);
+        .addEventListener(
+            "click",
+            startGame
+        );
 
     document
         .getElementById("reroll-theme-btn")
-        .addEventListener("click", renderThemeOptions);
+        .addEventListener(
+            "click",
+            renderThemeOptions
+        );
 
     document
         .getElementById("custom-theme-btn")
-        .addEventListener("click", () => {
-            showScreen("screen-custom-theme");
-        });
+        .addEventListener(
+            "click",
+            () => {
+                showScreen(
+                    "screen-custom-theme"
+                );
+            }
+        );
 
     document
         .getElementById("save-theme-btn")
-        .addEventListener("click", saveCustomTheme);
+        .addEventListener(
+            "click",
+            saveCustomTheme
+        );
 
     document
         .getElementById("cancel-theme-btn")
-        .addEventListener("click", () => {
-            showScreen("screen-theme");
-        });
+        .addEventListener(
+            "click",
+            () => {
+                showScreen(
+                    "screen-theme"
+                );
+            }
+        );
 
     document
         .getElementById("show-number-btn")
-        .addEventListener("click", showCurrentNumber);
+        .addEventListener(
+            "click",
+            showCurrentNumber
+        );
 
     document
         .getElementById("confirm-number-btn")
-        .addEventListener("click", nextPlayer);
+        .addEventListener(
+            "click",
+            nextPlayer
+        );
 
     document
         .getElementById("begin-discussion-btn")
-        .addEventListener("click", startDiscussion);
-
-    document
-        .getElementById("recheck-btn")
-        .addEventListener("click", openRecheck);
-
-    document
-        .getElementById("back-to-game-btn")
-        .addEventListener("click", () => {
-            showScreen("screen-game");
-        });
-
-    document
-        .getElementById("result-input-btn")
-        .addEventListener("click", openSort);
-
-    document
-        .getElementById("confirm-order-btn")
-        .addEventListener("click", previewOrder);
-
-    document
-        .getElementById("back-to-sort-btn")
-        .addEventListener("click", () => {
-            showScreen("screen-sort");
-        });
-
-    document
-        .getElementById("finalize-order-btn")
-        .addEventListener("click", startReveal);
-
-    document
-        .getElementById("rematch-btn")
-        .addEventListener("click", rematch);
-
-    document
-        .getElementById("back-top-btn")
-        .addEventListener("click", () => {
-            showScreen("screen-top");
-        });
-
-    document
-        .getElementById("abort-btn")
-        .addEventListener("click", abortGame);
-
-    document
-        .getElementById("screen-reveal")
-        .addEventListener("click", nextReveal);
-
+        .addEventListener(
+            "click",
+            startDiscussion
+        );
 }
 
-// =====================
-// Player
-// =====================
+// =====================================
+// Player UI
+// =====================================
+
+function renderPlayers() {
+
+    const list =
+        document.getElementById(
+            "player-list"
+        );
+
+    list.innerHTML = "";
+
+    players.forEach((player, index) => {
+
+        const input =
+            document.createElement(
+                "input"
+            );
+
+        input.type = "text";
+
+        input.className =
+            "player-input";
+
+        input.placeholder =
+            `プレイヤー${index + 1}`;
+
+        input.value =
+            player || "";
+
+        input.addEventListener(
+            "input",
+            e => {
+
+                players[index] =
+                    e.target.value;
+
+                savePlayers();
+
+                updatePlayerCount();
+
+            }
+        );
+
+        list.appendChild(input);
+
+    });
+
+    updatePlayerCount();
+}
+
+function updatePlayerCount() {
+
+    const count =
+        players.filter(
+            p => p.trim() !== ""
+        ).length;
+
+    document.getElementById(
+        "player-count"
+    ).textContent =
+        `登録人数：${count}人`;
+}
 
 function addPlayer() {
 
-    if (players.length >= 10) return;
+    if (players.length >= 10) {
+
+        alert(
+            "プレイヤーは最大10人です"
+        );
+
+        return;
+    }
 
     players.push("");
 
     renderPlayers();
 
     savePlayers();
-
 }
 
-// =====================
+function removePlayer() {
+
+    if (players.length <= 2) {
+
+        alert(
+            "2人未満にはできません"
+        );
+
+        return;
+    }
+
+    players.pop();
+
+    renderPlayers();
+
+    savePlayers();
+}
+
+// =====================================
 // Game Start
-// =====================
+// =====================================
 
 function startGame() {
 
     players =
         players
-            .map(v => v.trim())
-            .filter(v => v);
+            .map(p => p.trim())
+            .filter(p => p);
 
     if (players.length < 2) {
 
-        alert("2人以上登録してください");
+        alert(
+            "2人以上入力してください"
+        );
 
         return;
     }
 
     savePlayers();
 
-    showScreen("screen-theme");
-
     renderThemeOptions();
 
+    showScreen(
+        "screen-theme"
+    );
 }
 
-// =====================
-// Themes
-// =====================
+// =====================================
+// Theme
+// =====================================
 
 function renderThemeOptions() {
 
@@ -282,8 +318,10 @@ function renderThemeOptions() {
 
     container.innerHTML = "";
 
-    const allThemes =
-        [...THEMES, ...customThemes];
+    const allThemes = [
+        ...THEMES,
+        ...customThemes
+    ];
 
     const selected = [];
 
@@ -300,39 +338,42 @@ function renderThemeOptions() {
                 )
             ];
 
-        if (!selected.includes(theme)) {
+        if (
+            !selected.includes(theme)
+        ) {
 
             selected.push(theme);
-
         }
     }
 
     selected.forEach(theme => {
 
-        const btn =
-            document.createElement("button");
+        const button =
+            document.createElement(
+                "button"
+            );
 
-        btn.className = "theme-option";
+        button.className =
+            "theme-option";
 
-        btn.textContent = theme;
+        button.textContent =
+            theme;
 
-        btn.addEventListener(
+        button.addEventListener(
             "click",
-            () => selectTheme(theme)
+            () => {
+
+                currentTheme =
+                    theme;
+
+                setupNumbers();
+            }
         );
 
-        container.appendChild(btn);
-
+        container.appendChild(
+            button
+        );
     });
-
-}
-
-function selectTheme(theme) {
-
-    currentTheme = theme;
-
-    setupNumbers();
-
 }
 
 function saveCustomTheme() {
@@ -345,33 +386,40 @@ function saveCustomTheme() {
     const theme =
         input.value.trim();
 
-    if (!theme) return;
+    if (!theme) {
+
+        alert(
+            "お題を入力してください"
+        );
+
+        return;
+    }
 
     currentTheme = theme;
 
-    if (
+    const save =
         document.getElementById(
             "save-custom-theme"
-        ).checked
+        ).checked;
+
+    if (
+        save &&
+        !customThemes.includes(theme)
     ) {
 
-        if (!customThemes.includes(theme)) {
+        customThemes.push(theme);
 
-            customThemes.push(theme);
-
-            saveCustomThemes();
-
-        }
-
+        saveCustomThemes();
     }
 
-    setupNumbers();
+    input.value = "";
 
+    setupNumbers();
 }
 
-// =====================
-// Numbers
-// =====================
+// =====================================
+// Number Setup
+// =====================================
 
 function setupNumbers() {
 
@@ -380,7 +428,8 @@ function setupNumbers() {
     const numbers = [];
 
     while (
-        numbers.length < players.length
+        numbers.length <
+        players.length
     ) {
 
         const num =
@@ -388,47 +437,61 @@ function setupNumbers() {
                 Math.random() * 100
             ) + 1;
 
-        if (!numbers.includes(num)) {
+        if (
+            !numbers.includes(num)
+        ) {
 
             numbers.push(num);
-
         }
-
     }
 
-    players.forEach((p, i) => {
+    players.forEach(
+        (player, index) => {
 
-        playerNumbers[p] = numbers[i];
-
-    });
+            playerNumbers[player] =
+                numbers[index];
+        }
+    );
 
     currentPlayerIndex = 0;
+
+    showPlayerCheckScreen();
+}
+
+function showPlayerCheckScreen() {
 
     document.getElementById(
         "current-player-name"
     ).textContent =
-        players[currentPlayerIndex];
+        players[
+            currentPlayerIndex
+        ];
 
-    showScreen("screen-card-check");
-
+    showScreen(
+        "screen-card-check"
+    );
 }
 
 function showCurrentNumber() {
 
     const player =
-        players[currentPlayerIndex];
+        players[
+            currentPlayerIndex
+        ];
 
     document.getElementById(
         "number-player-name"
-    ).textContent = player;
+    ).textContent =
+        player;
 
     document.getElementById(
         "player-number"
     ).textContent =
         playerNumbers[player];
 
-    showScreen("screen-card-show");
-
+    showScreen(
+        "screen-card-show"
+    );
 }
 
 function nextPlayer() {
@@ -440,19 +503,19 @@ function nextPlayer() {
         players.length
     ) {
 
-        showScreen("screen-ready");
+        showScreen(
+            "screen-ready"
+        );
 
         return;
     }
 
-    document.getElementById(
-        "current-player-name"
-    ).textContent =
-        players[currentPlayerIndex];
-
-    showScreen("screen-card-check");
-
+    showPlayerCheckScreen();
 }
+
+// =====================================
+// Discussion
+// =====================================
 
 function startDiscussion() {
 
@@ -461,16 +524,103 @@ function startDiscussion() {
     ).textContent =
         currentTheme;
 
-    showScreen("screen-game");
-
+    showScreen(
+        "screen-game"
+    );
 }
 
+// =====================================
+// Additional Events
+// =====================================
 
-// ↓ここから後半を追記
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
 
-// =====================
+        document
+            .getElementById("recheck-btn")
+            .addEventListener(
+                "click",
+                openRecheck
+            );
+
+        document
+            .getElementById("back-to-game-btn")
+            .addEventListener(
+                "click",
+                () => {
+                    showScreen(
+                        "screen-game"
+                    );
+                }
+            );
+
+        document
+            .getElementById("result-input-btn")
+            .addEventListener(
+                "click",
+                openSort
+            );
+
+        document
+            .getElementById("confirm-order-btn")
+            .addEventListener(
+                "click",
+                previewOrder
+            );
+
+        document
+            .getElementById("back-to-sort-btn")
+            .addEventListener(
+                "click",
+                () => {
+                    showScreen(
+                        "screen-sort"
+                    );
+                }
+            );
+
+        document
+            .getElementById("finalize-order-btn")
+            .addEventListener(
+                "click",
+                startReveal
+            );
+
+        document
+            .getElementById("rematch-btn")
+            .addEventListener(
+                "click",
+                rematch
+            );
+
+        document
+            .getElementById("back-top-btn")
+            .addEventListener(
+                "click",
+                backToTop
+            );
+
+        document
+            .getElementById("abort-btn")
+            .addEventListener(
+                "click",
+                abortGame
+            );
+
+        document
+            .getElementById("screen-reveal")
+            .addEventListener(
+                "click",
+                nextReveal
+            );
+
+    }
+);
+
+// =====================================
 // Recheck
-// =====================
+// =====================================
 
 function openRecheck() {
 
@@ -483,14 +633,18 @@ function openRecheck() {
 
     players.forEach(player => {
 
-        const btn =
-            document.createElement("button");
+        const button =
+            document.createElement(
+                "button"
+            );
 
-        btn.className = "theme-option";
+        button.className =
+            "theme-option";
 
-        btn.textContent = player;
+        button.textContent =
+            player;
 
-        btn.addEventListener(
+        button.addEventListener(
             "click",
             () => {
 
@@ -499,26 +653,37 @@ function openRecheck() {
                         `${player} の数字を表示しますか？`
                     );
 
-                if (!ok) return;
+                if (!ok) {
+                    return;
+                }
 
                 alert(
                     `${player}\n\n${playerNumbers[player]}`
                 );
 
+                showScreen(
+                    "screen-game"
+                );
+
             }
         );
 
-        container.appendChild(btn);
+        container.appendChild(
+            button
+        );
 
     });
 
-    showScreen("screen-recheck");
-
+    showScreen(
+        "screen-recheck"
+    );
 }
 
-// =====================
+// =====================================
 // Sort
-// =====================
+// =====================================
+
+let sortableInstance = null;
 
 function openSort() {
 
@@ -529,11 +694,12 @@ function openSort() {
 
     list.innerHTML = "";
 
-    // プレイヤー登録順
     players.forEach(player => {
 
         const item =
-            document.createElement("div");
+            document.createElement(
+                "div"
+            );
 
         item.className =
             "sort-item";
@@ -548,14 +714,18 @@ function openSort() {
 
     });
 
-    new Sortable(list, {
+    if (sortableInstance) {
+        sortableInstance.destroy();
+    }
 
-        animation: 150
+    sortableInstance =
+        new Sortable(list, {
+            animation: 150
+        });
 
-    });
-
-    showScreen("screen-sort");
-
+    showScreen(
+        "screen-sort"
+    );
 }
 
 function previewOrder() {
@@ -566,8 +736,9 @@ function previewOrder() {
         );
 
     predictedOrder =
-        [...items].map(item =>
-            item.dataset.player
+        [...items].map(
+            item =>
+                item.dataset.player
         );
 
     const preview =
@@ -578,20 +749,22 @@ function previewOrder() {
     preview.innerHTML = "";
 
     predictedOrder.forEach(
-        (player, index) => {
+        player => {
 
-            const div =
+            const row =
                 document.createElement(
                     "div"
                 );
 
-            div.className =
+            row.className =
                 "result-row";
 
-            div.textContent =
-                `${index + 1}. ${player}`;
+            row.textContent =
+                player;
 
-            preview.appendChild(div);
+            preview.appendChild(
+                row
+            );
 
         }
     );
@@ -599,14 +772,11 @@ function previewOrder() {
     showScreen(
         "screen-confirm-order"
     );
-
 }
 
-// =====================
+// =====================================
 // Reveal
-// =====================
-
-let revealOrder = [];
+// =====================================
 
 function startReveal() {
 
@@ -615,15 +785,17 @@ function startReveal() {
             playerNumbers
         )
         .sort(
-            (a, b) => a[1] - b[1]
+            (a, b) =>
+                b[1] - a[1]
         );
 
     revealIndex = 0;
 
     renderReveal();
 
-    showScreen("screen-reveal");
-
+    showScreen(
+        "screen-reveal"
+    );
 }
 
 function renderReveal() {
@@ -642,7 +814,6 @@ function renderReveal() {
         "reveal-number"
     ).textContent =
         current[1];
-
 }
 
 function nextReveal() {
@@ -660,12 +831,11 @@ function nextReveal() {
     }
 
     renderReveal();
-
 }
 
-// =====================
+// =====================================
 // Result
-// =====================
+// =====================================
 
 function showResults() {
 
@@ -678,8 +848,9 @@ function showResults() {
 
     renderActualResults();
 
-    showScreen("screen-result");
-
+    showScreen(
+        "screen-result"
+    );
 }
 
 function renderPredictedResults() {
@@ -714,7 +885,6 @@ function renderPredictedResults() {
 
         }
     );
-
 }
 
 function renderActualResults() {
@@ -749,12 +919,11 @@ function renderActualResults() {
 
         }
     );
-
 }
 
-// =====================
+// =====================================
 // Rematch
-// =====================
+// =====================================
 
 function rematch() {
 
@@ -766,24 +935,18 @@ function rematch() {
 
     revealOrder = [];
 
-    showScreen("screen-theme");
-
     renderThemeOptions();
 
+    showScreen(
+        "screen-theme"
+    );
 }
 
-// =====================
-// Abort
-// =====================
+// =====================================
+// Back To Top
+// =====================================
 
-function abortGame() {
-
-    const ok =
-        confirm(
-            "本当に中断しますか？"
-        );
-
-    if (!ok) return;
+function backToTop() {
 
     currentTheme = "";
 
@@ -793,9 +956,27 @@ function abortGame() {
 
     revealOrder = [];
 
-    showScreen("screen-top");
+    renderPlayers();
 
+    showScreen(
+        "screen-top"
+    );
 }
 
+// =====================================
+// Abort
+// =====================================
 
+function abortGame() {
 
+    const ok =
+        confirm(
+            "本当にゲームを中断しますか？"
+        );
+
+    if (!ok) {
+        return;
+    }
+
+    backToTop();
+}

@@ -1,141 +1,217 @@
-* {
-    box-sizing: border-box;
+*{
+    box-sizing:border-box;
 }
 
-body {
-    margin: 0;
-    padding: 16px;
-    font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        sans-serif;
-    background: #f4f4f4;
-    color: #222;
+body{
+    margin:0;
+    padding:16px;
+    background:#f4f4f4;
+    font-family:-apple-system,BlinkMacSystemFont,sans-serif;
+    color:#222;
 }
 
-#app {
-    max-width: 500px;
-    margin: 0 auto;
+#app{
+    max-width:500px;
+    margin:auto;
 }
 
-.screen {
-    display: none;
+.screen{
+    display:none;
 }
 
-.screen.active {
-    display: block;
+.screen.active{
+    display:block;
 }
 
-h1,
-h2,
-h3 {
-    text-align: center;
+h1,h2,h3{
+    text-align:center;
 }
 
-input[type="text"] {
-    width: 100%;
-    padding: 14px;
-    font-size: 16px;
-    border-radius: 10px;
-    border: 1px solid #ccc;
+input[type="text"]{
+    width:100%;
+    padding:14px;
+    border-radius:12px;
+    border:1px solid #ccc;
+    font-size:16px;
 }
 
 .primary-btn,
 .secondary-btn,
-.danger-btn {
-    width: 100%;
-    border: none;
-    border-radius: 12px;
-    padding: 16px;
-    margin-top: 12px;
-    font-size: 18px;
-    cursor: pointer;
+.danger-btn,
+.accent-btn{
+
+    width:100%;
+    padding:16px;
+    margin-top:12px;
+    border:none;
+    border-radius:12px;
+    font-size:18px;
 }
 
-.primary-btn {
-    background: #2563eb;
-    color: white;
+.primary-btn{
+    background:#2563eb;
+    color:white;
 }
 
-.secondary-btn {
-    background: white;
-    border: 1px solid #ddd;
+.secondary-btn{
+    background:white;
+    border:1px solid #ddd;
 }
 
-.danger-btn {
-    background: #dc2626;
-    color: white;
+.accent-btn{
+    background:#eef5ff;
 }
 
-.note {
-    text-align: center;
-    color: #666;
-    margin-top: 20px;
+.danger-btn{
+    background:#dc2626;
+    color:white;
 }
 
-.number-display {
-    text-align: center;
-    font-size: 72px;
-    font-weight: bold;
-    margin: 40px 0;
+.player-control-row{
+    display:flex;
+    gap:12px;
 }
 
-.theme-display {
-    background: white;
-    border-radius: 12px;
-    padding: 24px;
-    text-align: center;
-    font-size: 24px;
-    margin-bottom: 20px;
+.small-btn{
+    flex:1;
 }
 
-.checkbox-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 20px;
+.player-input{
+    width:100%;
+    margin-bottom:10px;
 }
 
-.player-input {
-    width: 100%;
-    margin-bottom: 10px;
+.theme-option{
+
+    width:100%;
+    padding:18px;
+
+    background:white;
+
+    border:1px solid #ddd;
+
+    border-radius:12px;
+
+    margin-bottom:10px;
+
+    font-size:18px;
 }
 
-.theme-option {
-    width: 100%;
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 12px;
-    padding: 18px;
-    margin-bottom: 10px;
-    font-size: 18px;
+.theme-separator{
+    height:20px;
 }
 
-.sort-item {
-    background: white;
-    border-radius: 12px;
-    padding: 16px;
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
-    font-size: 18px;
+.checkbox-row{
+    display:flex;
+    gap:8px;
+    align-items:center;
+    margin-top:20px;
 }
 
-.reveal-player {
-    text-align: center;
-    font-size: 36px;
-    margin-top: 120px;
+.number-display{
+    text-align:center;
+    font-size:84px;
+    font-weight:bold;
+    margin:40px 0;
 }
 
-.reveal-number {
-    text-align: center;
-    font-size: 80px;
-    font-weight: bold;
-    margin-top: 40px;
+.theme-display{
+    background:white;
+    border-radius:12px;
+    padding:24px;
+    text-align:center;
+    font-size:24px;
+    margin-bottom:20px;
 }
 
-.result-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 8px 0;
-    border-bottom: 1px solid #ddd;
+.guide-text{
+    text-align:center;
+    color:#666;
+}
+
+.sort-item{
+
+    background:white;
+
+    border:1px solid #ddd;
+
+    border-radius:12px;
+
+    padding:16px;
+
+    margin-bottom:10px;
+
+    font-size:18px;
+}
+
+.reveal-player{
+
+    text-align:center;
+
+    font-size:28px;
+
+    color:#666;
+
+    margin-top:100px;
+}
+
+.reveal-number{
+
+    text-align:center;
+
+    font-size:120px;
+
+    font-weight:bold;
+
+    margin-top:20px;
+}
+
+.reveal-guide{
+
+    text-align:center;
+
+    margin-top:40px;
+}
+
+.result-theme{
+
+    background:white;
+
+    border-radius:12px;
+
+    padding:16px;
+
+    text-align:center;
+
+    margin-bottom:20px;
+}
+
+.result-box{
+
+    border-radius:12px;
+
+    padding:12px;
+
+    margin-bottom:20px;
+}
+
+.answer-box{
+    background:#eef5ff;
+}
+
+.correct-box{
+    background:#eefaf0;
+}
+
+.result-row{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:20px;
+
+    padding:10px;
+
+    border-bottom:1px solid rgba(0,0,0,.08);
 }
