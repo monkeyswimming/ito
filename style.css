@@ -1,305 +1,369 @@
-*{
-    box-sizing:border-box;
+/* =====================================
+   Base
+===================================== */
+
+* {
+    box-sizing: border-box;
 }
 
-body{
-    margin:0;
-    padding:16px;
-    background:#f4f4f4;
-    font-family:-apple-system,BlinkMacSystemFont,sans-serif;
-    color:#222;
+body {
+    margin: 0;
+    padding: 0;
+    background: #f4f6f8;
+    color: #222;
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        sans-serif;
 }
 
-#app{
-    max-width:500px;
-    margin:auto;
+.app {
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 24px;
 }
 
-/* =========================
+/* =====================================
    Screen
-========================= */
+===================================== */
 
-.screen{
-    display:none;
-    min-height:80vh;
-    flex-direction:column;
-    justify-content:center;
+.screen {
+    display: none;
+    width: 100%;
 }
 
-.screen.active{
-    display:flex;
+.screen.active {
+    display: block;
 }
+
+/* =====================================
+   Typography
+===================================== */
 
 h1,
 h2,
-h3{
-    text-align:center;
-    margin-bottom:20px;
+h3 {
+    text-align: center;
+    margin-top: 0;
 }
 
-/* =========================
+p {
+    margin: 0;
+}
+
+/* =====================================
    Inputs
-========================= */
+===================================== */
 
-input[type="text"]{
-    width:100%;
-    padding:14px;
-    border-radius:12px;
-    border:1px solid #bbb;
-    font-size:16px;
-    background:white;
+.player-input,
+#custom-theme-input {
+    width: 100%;
+
+    padding: 14px;
+
+    margin-bottom: 10px;
+
+    border-radius: 12px;
+
+    border: 1px solid #cccccc;
+
+    font-size: 16px;
 }
 
-/* =========================
+/* =====================================
    Buttons
-========================= */
+===================================== */
 
-.primary-btn,
-.secondary-btn,
-.danger-btn,
-.accent-btn{
+button {
 
-    width:100%;
-    padding:16px;
-    margin-top:12px;
+    width: 100%;
 
-    border:none;
-    border-radius:12px;
+    padding: 14px;
 
-    font-size:18px;
-    font-weight:600;
+    margin-top: 12px;
+
+    border: none;
+
+    border-radius: 12px;
+
+    background: #d7e3f4;
+
+    color: #222;
+
+    font-size: 16px;
+
+    cursor: pointer;
 }
 
-.primary-btn{
-    background:#2563eb;
-    color:white;
+button:active {
+    transform: scale(0.98);
 }
 
-.secondary-btn{
-    background:#ffffff;
-    border:1px solid #cfcfcf;
+.primary {
+    background: #7fb3ff;
+    color: white;
 }
 
-.accent-btn{
-    background:#3b82f6;
-    color:white;
+.secondary {
+    background: #9fc5ff;
+    color: white;
 }
 
-.danger-btn{
-    background:#dc2626;
-    color:white;
+.orange {
+    background: #f4a261;
+    color: white;
 }
 
-/* =========================
+/* =====================================
    Player
-========================= */
+===================================== */
 
-.player-control-row{
-    display:flex;
-    gap:12px;
+.player-buttons {
+
+    display: flex;
+
+    gap: 12px;
+
+    margin-top: 8px;
 }
 
-.small-btn{
-    flex:1;
+.player-buttons button {
+    margin-top: 0;
 }
 
-.player-input{
-    margin-bottom:10px;
+#player-count {
+
+    text-align: center;
+
+    margin-top: 16px;
+
+    font-size: 15px;
 }
 
-#player-count{
-    text-align:center;
-    font-weight:600;
-}
-
-/* =========================
+/* =====================================
    Theme
-========================= */
+===================================== */
 
-.theme-option{
+.theme-option {
 
-    width:100%;
+    width: 100%;
 
-    padding:18px;
+    margin-bottom: 10px;
 
-    background:white;
+    padding: 14px;
 
-    border:1px solid #ccc;
+    border-radius: 12px;
 
-    border-radius:12px;
+    border: none;
 
-    margin-bottom:10px;
+    background: white;
 
-    font-size:18px;
+    box-shadow:
+        0 2px 8px rgba(0,0,0,.08);
 }
 
-.theme-separator{
-    height:24px;
+.theme-actions {
+
+    margin-top: 24px;
 }
 
-#reroll-theme-btn{
-    background:#f97316;
-    color:white;
+.theme-display {
+
+    background: white;
+
+    padding: 18px;
+
+    border-radius: 12px;
+
+    text-align: center;
+
+    margin-bottom: 24px;
+
+    box-shadow:
+        0 2px 8px rgba(0,0,0,.08);
 }
 
-/* =========================
-   Number
-========================= */
+/* =====================================
+   Center Screens
+===================================== */
 
-.number-display{
-    text-align:center;
-    font-size:96px;
-    font-weight:bold;
-    margin:40px 0;
+.center-card {
+
+    min-height: 60vh;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    align-items: center;
 }
 
-/* =========================
+/* =====================================
+   Number Check
+===================================== */
+
+.player-name {
+
+    font-size: 34px;
+
+    font-weight: bold;
+
+    text-align: center;
+}
+
+.turn-text {
+
+    width: 100%;
+
+    text-align: right;
+
+    margin-top: 12px;
+
+    color: #666;
+}
+
+.ready-text {
+
+    width: 100%;
+
+    text-align: right;
+
+    margin-top: 10px;
+
+    color: #666;
+}
+
+.big-number {
+
+    font-size: 100px;
+
+    font-weight: bold;
+
+    line-height: 1.1;
+
+    margin-top: 24px;
+}
+
+/* =====================================
    Game
-========================= */
+===================================== */
 
-.theme-display{
+.checkbox {
 
-    background:white;
+    display: block;
 
-    border-radius:12px;
+    margin-top: 16px;
 
-    padding:24px;
-
-    text-align:center;
-
-    font-size:24px;
-
-    margin-bottom:24px;
-
-    border:1px solid #ddd;
+    margin-bottom: 16px;
 }
 
-/* =========================
+.button-group {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+}
+
+/* =====================================
    Sort
-========================= */
+===================================== */
 
-.guide-text{
-    text-align:center;
-    color:#555;
-    font-size:15px;
+#sortable-list {
+
+    margin-top: 24px;
 }
 
-.sort-item{
+.sort-item {
 
-    background:white;
+    background: white;
 
-    border:1px solid #ccc;
+    padding: 16px;
 
-    border-radius:12px;
+    border-radius: 12px;
 
-    padding:18px;
+    margin-bottom: 10px;
 
-    margin-bottom:10px;
+    text-align: center;
 
-    font-size:18px;
+    box-shadow:
+        0 2px 8px rgba(0,0,0,.08);
 }
 
-/* =========================
+/* =====================================
    Reveal
-========================= */
+===================================== */
 
-.reveal-player{
+.tap-next {
 
-    text-align:center;
+    margin-top: 36px;
 
-    font-size:30px;
+    color: #666;
 
-    color:#555;
+    font-size: 15px;
 }
 
-.reveal-number{
-
-    text-align:center;
-
-    font-size:140px;
-
-    font-weight:bold;
-
-    line-height:1.1;
-}
-
-.reveal-guide{
-
-    text-align:center;
-
-    margin-top:20px;
-
-    color:#666;
-
-    font-size:16px;
-}
-
-/* =========================
+/* =====================================
    Result
-========================= */
+===================================== */
 
-.result-theme{
+.result-block {
 
-    background:white;
+    background: #dbeafe;
 
-    border-radius:12px;
+    border-radius: 14px;
 
-    padding:18px;
+    padding: 16px;
 
-    margin-bottom:24px;
-
-    text-align:center;
-
-    border:1px solid #ddd;
+    margin-bottom: 18px;
 }
 
-.result-box{
+.result-block.success {
 
-    border-radius:12px;
-
-    padding:10px;
-
-    margin-bottom:24px;
+    background: #dcfce7;
 }
 
-.answer-box{
-    background:#dbeafe;
+.result-row {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding: 10px 0;
+
+    border-bottom:
+        1px solid rgba(0,0,0,.08);
 }
 
-.correct-box{
-    background:#dcfce7;
+.result-row:last-child {
+    border-bottom: none;
 }
 
-.result-row{
+/* =====================================
+   Responsive
+===================================== */
 
-    display:flex;
+@media (max-width: 480px) {
 
-    justify-content:space-between;
+    .big-number {
 
-    align-items:center;
-
-    padding:12px 16px;
-
-    border-bottom:1px solid rgba(0,0,0,.08);
-
-    font-size:18px;
-}
-
-.result-row:last-child{
-    border-bottom:none;
-}
-
-/* =========================
-   Mobile
-========================= */
-
-@media (max-width:480px){
-
-    .reveal-number{
-        font-size:120px;
+        font-size: 88px;
     }
 
-    .number-display{
-        font-size:84px;
+    .player-name {
+
+        font-size: 30px;
     }
 }
