@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ito</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
+
+    <script src="themes.js" defer></script>
+    <script src="app.js" defer></script>
+</head>
+<body>
+
+<div id="app">
+
+    <!-- トップ画面 -->
+    <section id="screen-top" class="screen active">
+
+        <h1>ito</h1>
+
+        <div id="player-list"></div>
+
+        <button id="add-player-btn" class="secondary-btn">
+            ＋ プレイヤー追加
+        </button>
+
+        <p id="player-count">登録人数：0人</p>
+
+        <button id="start-game-btn" class="primary-btn">
+            ゲーム開始
+        </button>
+
+        <button id="theme-manager-btn" class="secondary-btn">
+            カスタムテーマ管理
+        </button>
+
+    </section>
+
+    <!-- お題選択 -->
+    <section id="screen-theme" class="screen">
+
+        <h2>お題選択</h2>
+
+        <div id="theme-options"></div>
+
+        <button id="reroll-theme-btn" class="secondary-btn">
+            再抽選
+        </button>
+
+        <button id="custom-theme-btn" class="secondary-btn">
+            自由入力
+        </button>
+
+    </section>
+
+    <!-- 自由入力 -->
+    <section id="screen-custom-theme" class="screen">
+
+        <h2>お題入力</h2>
+
+        <input
+            type="text"
+            id="custom-theme-input"
+            placeholder="お題を入力"
+        >
+
+        <label class="checkbox-row">
+            <input type="checkbox" id="save-custom-theme">
+            次回以降も保存する
+        </label>
+
+        <button id="save-theme-btn" class="primary-btn">
+            決定
+        </button>
+
+        <button id="cancel-theme-btn" class="secondary-btn">
+            戻る
+        </button>
+
+    </section>
+
+    <!-- 数字確認 -->
+    <section id="screen-card-check" class="screen">
+
+        <h2 id="current-player-name"></h2>
+
+        <p>の番です</p>
+
+        <button id="show-number-btn" class="primary-btn">
+            数字を見る
+        </button>
+
+        <p class="note">
+            他の人に見られないように確認してください
+        </p>
+
+    </section>
+
+    <!-- 数字表示 -->
+    <section id="screen-card-show" class="screen">
+
+        <h2 id="number-player-name"></h2>
+
+        <div id="player-number" class="number-display">
+            50
+        </div>
+
+        <button id="confirm-number-btn" class="primary-btn">
+            確認しました
+        </button>
+
+    </section>
+
+    <!-- 準備完了 -->
+    <section id="screen-ready" class="screen">
+
+        <h2>準備完了！</h2>
+
+        <p>ゲームを開始します</p>
+
+        <button id="begin-discussion-btn" class="primary-btn">
+            ゲーム開始
+        </button>
+
+    </section>
+
+    <!-- ゲーム中 -->
+    <section id="screen-game" class="screen">
+
+        <h2>お題</h2>
+
+        <div id="current-theme-display" class="theme-display"></div>
+
+        <button id="recheck-btn" class="primary-btn">
+            番号を確認
+        </button>
+
+        <button id="result-input-btn" class="primary-btn">
+            結果入力に進む
+        </button>
+
+        <button id="abort-btn" class="danger-btn">
+            ゲーム中断
+        </button>
+
+    </section>
+
+    <!-- 再確認 -->
+    <section id="screen-recheck" class="screen">
+
+        <h2>誰の数字を確認しますか？</h2>
+
+        <div id="recheck-player-list"></div>
+
+        <button id="back-to-game-btn" class="secondary-btn">
+            戻る
+        </button>
+
+    </section>
+
+    <!-- 並び替え -->
+    <section id="screen-sort" class="screen">
+
+        <h2>予想順に並べてください</h2>
+
+        <div id="sortable-list"></div>
+
+        <p class="note">
+            ドラッグして並び替え
+        </p>
+
+        <button id="confirm-order-btn" class="primary-btn">
+            確認画面へ
+        </button>
+
+    </section>
+
+    <!-- 確認画面 -->
+    <section id="screen-confirm-order" class="screen">
+
+        <h2>この順番で確定しますか？</h2>
+
+        <div id="order-preview"></div>
+
+        <button id="back-to-sort-btn" class="secondary-btn">
+            戻る
+        </button>
+
+        <button id="finalize-order-btn" class="primary-btn">
+            確定
+        </button>
+
+    </section>
+
+    <!-- 発表 -->
+    <section id="screen-reveal" class="screen">
+
+        <div id="reveal-player" class="reveal-player"></div>
+
+        <div id="reveal-number" class="reveal-number"></div>
+
+        <p class="note">
+            画面をタップ
+        </p>
+
+    </section>
+
+    <!-- 結果 -->
+    <section id="screen-result" class="screen">
+
+        <h2>結果</h2>
+
+        <h3>お題</h3>
+
+        <div id="result-theme"></div>
+
+        <h3>予想</h3>
+
+        <div id="predicted-result"></div>
+
+        <h3>正解</h3>
+
+        <div id="actual-result"></div>
+
+        <button id="rematch-btn" class="primary-btn">
+            同じメンバーで再戦
+        </button>
+
+        <button id="back-top-btn" class="secondary-btn">
+            トップへ戻る
+        </button>
+
+    </section>
+
+</div>
+
+</body>
+</html>
