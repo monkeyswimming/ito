@@ -15,25 +15,44 @@ body{
     margin:auto;
 }
 
+/* =========================
+   Screen
+========================= */
+
 .screen{
     display:none;
+    min-height:80vh;
+    flex-direction:column;
+    justify-content:center;
 }
 
 .screen.active{
-    display:block;
+    display:flex;
 }
 
-h1,h2,h3{
+h1,
+h2,
+h3{
     text-align:center;
+    margin-bottom:20px;
 }
+
+/* =========================
+   Inputs
+========================= */
 
 input[type="text"]{
     width:100%;
     padding:14px;
     border-radius:12px;
-    border:1px solid #ccc;
+    border:1px solid #bbb;
     font-size:16px;
+    background:white;
 }
+
+/* =========================
+   Buttons
+========================= */
 
 .primary-btn,
 .secondary-btn,
@@ -43,9 +62,12 @@ input[type="text"]{
     width:100%;
     padding:16px;
     margin-top:12px;
+
     border:none;
     border-radius:12px;
+
     font-size:18px;
+    font-weight:600;
 }
 
 .primary-btn{
@@ -54,18 +76,23 @@ input[type="text"]{
 }
 
 .secondary-btn{
-    background:white;
-    border:1px solid #ddd;
+    background:#ffffff;
+    border:1px solid #cfcfcf;
 }
 
 .accent-btn{
-    background:#eef5ff;
+    background:#3b82f6;
+    color:white;
 }
 
 .danger-btn{
     background:#dc2626;
     color:white;
 }
+
+/* =========================
+   Player
+========================= */
 
 .player-control-row{
     display:flex;
@@ -77,18 +104,27 @@ input[type="text"]{
 }
 
 .player-input{
-    width:100%;
     margin-bottom:10px;
 }
+
+#player-count{
+    text-align:center;
+    font-weight:600;
+}
+
+/* =========================
+   Theme
+========================= */
 
 .theme-option{
 
     width:100%;
+
     padding:18px;
 
     background:white;
 
-    border:1px solid #ddd;
+    border:1px solid #ccc;
 
     border-radius:12px;
 
@@ -98,80 +134,109 @@ input[type="text"]{
 }
 
 .theme-separator{
-    height:20px;
+    height:24px;
 }
 
-.checkbox-row{
-    display:flex;
-    gap:8px;
-    align-items:center;
-    margin-top:20px;
+#reroll-theme-btn{
+    background:#f97316;
+    color:white;
 }
+
+/* =========================
+   Number
+========================= */
 
 .number-display{
     text-align:center;
-    font-size:84px;
+    font-size:96px;
     font-weight:bold;
     margin:40px 0;
 }
 
+/* =========================
+   Game
+========================= */
+
 .theme-display{
+
     background:white;
+
     border-radius:12px;
+
     padding:24px;
+
     text-align:center;
+
     font-size:24px;
-    margin-bottom:20px;
+
+    margin-bottom:24px;
+
+    border:1px solid #ddd;
 }
+
+/* =========================
+   Sort
+========================= */
 
 .guide-text{
     text-align:center;
-    color:#666;
+    color:#555;
+    font-size:15px;
 }
 
 .sort-item{
 
     background:white;
 
-    border:1px solid #ddd;
+    border:1px solid #ccc;
 
     border-radius:12px;
 
-    padding:16px;
+    padding:18px;
 
     margin-bottom:10px;
 
     font-size:18px;
 }
 
+/* =========================
+   Reveal
+========================= */
+
 .reveal-player{
 
     text-align:center;
 
-    font-size:28px;
+    font-size:30px;
 
-    color:#666;
-
-    margin-top:100px;
+    color:#555;
 }
 
 .reveal-number{
 
     text-align:center;
 
-    font-size:120px;
+    font-size:140px;
 
     font-weight:bold;
 
-    margin-top:20px;
+    line-height:1.1;
 }
 
 .reveal-guide{
 
     text-align:center;
 
-    margin-top:40px;
+    margin-top:20px;
+
+    color:#666;
+
+    font-size:16px;
 }
+
+/* =========================
+   Result
+========================= */
 
 .result-theme{
 
@@ -179,39 +244,62 @@ input[type="text"]{
 
     border-radius:12px;
 
-    padding:16px;
+    padding:18px;
+
+    margin-bottom:24px;
 
     text-align:center;
 
-    margin-bottom:20px;
+    border:1px solid #ddd;
 }
 
 .result-box{
 
     border-radius:12px;
 
-    padding:12px;
+    padding:10px;
 
-    margin-bottom:20px;
+    margin-bottom:24px;
 }
 
 .answer-box{
-    background:#eef5ff;
+    background:#dbeafe;
 }
 
 .correct-box{
-    background:#eefaf0;
+    background:#dcfce7;
 }
 
 .result-row{
 
     display:flex;
 
-    justify-content:center;
+    justify-content:space-between;
 
-    gap:20px;
+    align-items:center;
 
-    padding:10px;
+    padding:12px 16px;
 
     border-bottom:1px solid rgba(0,0,0,.08);
+
+    font-size:18px;
+}
+
+.result-row:last-child{
+    border-bottom:none;
+}
+
+/* =========================
+   Mobile
+========================= */
+
+@media (max-width:480px){
+
+    .reveal-number{
+        font-size:120px;
+    }
+
+    .number-display{
+        font-size:84px;
+    }
 }

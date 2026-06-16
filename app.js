@@ -1,5 +1,5 @@
 // =====================================
-// Storage
+// Storage Keys
 // =====================================
 
 const STORAGE_PLAYERS = "ito_players";
@@ -24,8 +24,10 @@ let revealOrder = [];
 
 let revealIndex = 0;
 
+let sortableInstance = null;
+
 // =====================================
-// Init
+// Initialize
 // =====================================
 
 window.addEventListener("DOMContentLoaded", () => {
@@ -39,7 +41,7 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 // =====================================
-// Screen
+// Screen Control
 // =====================================
 
 function showScreen(screenId) {
@@ -91,7 +93,7 @@ function saveCustomThemes() {
 }
 
 // =====================================
-// Events
+// Event Bindings
 // =====================================
 
 function bindEvents() {
@@ -153,25 +155,115 @@ function bindEvents() {
             }
         );
 
+    // 数字確認
+
     document
-        .getElementById("show-number-btn")
+        .getElementById("screen-card-check")
         .addEventListener(
             "click",
             showCurrentNumber
         );
 
     document
-        .getElementById("confirm-number-btn")
+        .getElementById("screen-card-show")
         .addEventListener(
             "click",
             nextPlayer
         );
 
     document
-        .getElementById("begin-discussion-btn")
+        .getElementById("screen-ready")
         .addEventListener(
             "click",
             startDiscussion
+        );
+
+    // ゲーム中
+
+    document
+        .getElementById("recheck-btn")
+        .addEventListener(
+            "click",
+            openRecheck
+        );
+
+    document
+        .getElementById("result-input-btn")
+        .addEventListener(
+            "click",
+            openSort
+        );
+
+    document
+        .getElementById("abort-btn")
+        .addEventListener(
+            "click",
+            abortGame
+        );
+
+    // 再確認
+
+    document
+        .getElementById("back-to-game-btn")
+        .addEventListener(
+            "click",
+            () => {
+                showScreen(
+                    "screen-game"
+                );
+            }
+        );
+
+    // 並び替え
+
+    document
+        .getElementById("confirm-order-btn")
+        .addEventListener(
+            "click",
+            previewOrder
+        );
+
+    document
+        .getElementById("back-to-sort-btn")
+        .addEventListener(
+            "click",
+            () => {
+                showScreen(
+                    "screen-sort"
+                );
+            }
+        );
+
+    document
+        .getElementById("finalize-order-btn")
+        .addEventListener(
+            "click",
+            startReveal
+        );
+
+    // 結果
+
+    document
+        .getElementById("rematch-btn")
+        .addEventListener(
+            "click",
+            rematch
+        );
+
+    document
+        .getElementById("back-top-btn")
+        .addEventListener(
+            "click",
+            backToTop
+        );
+
+    // 発表
+
+    document
+        .getElementById("screen-reveal")
+        .addEventListener(
+            "click",
+            nextReveal
         );
 }
 
@@ -181,48 +273,52 @@ function bindEvents() {
 
 function renderPlayers() {
 
-    const list =
+    const container =
         document.getElementById(
             "player-list"
         );
 
-    list.innerHTML = "";
+    container.innerHTML = "";
 
-    players.forEach((player, index) => {
+    players.forEach(
+        (player, index) => {
 
-        const input =
-            document.createElement(
-                "input"
+            const input =
+                document.createElement(
+                    "input"
+                );
+
+            input.type = "text";
+
+            input.className =
+                "player-input";
+
+            input.placeholder =
+                `プレイヤー${index + 1}`;
+
+            input.value =
+                player;
+
+            input.addEventListener(
+                "input",
+                e => {
+
+                    players[index] =
+                        e.target.value;
+
+                    savePlayers();
+
+                    updatePlayerCount();
+
+                }
             );
 
-        input.type = "text";
+            container.appendChild(
+                input
+            );
 
-        input.className =
-            "player-input";
-
-        input.placeholder =
-            `プレイヤー${index + 1}`;
-
-        input.value =
-            player || "";
-
-        input.addEventListener(
-            "input",
-            e => {
-
-                players[index] =
-                    e.target.value;
-
-                savePlayers();
-
-                updatePlayerCount();
-
-            }
-        );
-
-        list.appendChild(input);
-
-    });
+        }
+    );
 
     updatePlayerCount();
 }
@@ -284,8 +380,12 @@ function startGame() {
 
     players =
         players
-            .map(p => p.trim())
-            .filter(p => p);
+            .map(
+                p => p.trim()
+            )
+            .filter(
+                p => p !== ""
+            );
 
     if (players.length < 2) {
 
@@ -306,7 +406,7 @@ function startGame() {
 }
 
 // =====================================
-// Theme
+// Theme Selection
 // =====================================
 
 function renderThemeOptions() {
@@ -339,41 +439,49 @@ function renderThemeOptions() {
             ];
 
         if (
-            !selected.includes(theme)
+            !selected.includes(
+                theme
+            )
         ) {
 
-            selected.push(theme);
+            selected.push(
+                theme
+            );
         }
     }
 
-    selected.forEach(theme => {
+    selected.forEach(
+        theme => {
 
-        const button =
-            document.createElement(
-                "button"
+            const button =
+                document.createElement(
+                    "button"
+                );
+
+            button.className =
+                "theme-option";
+
+            button.textContent =
+                theme;
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    currentTheme =
+                        theme;
+
+                    setupNumbers();
+
+                }
             );
 
-        button.className =
-            "theme-option";
+            container.appendChild(
+                button
+            );
 
-        button.textContent =
-            theme;
-
-        button.addEventListener(
-            "click",
-            () => {
-
-                currentTheme =
-                    theme;
-
-                setupNumbers();
-            }
-        );
-
-        container.appendChild(
-            button
-        );
-    });
+        }
+    );
 }
 
 function saveCustomTheme() {
@@ -407,7 +515,9 @@ function saveCustomTheme() {
         !customThemes.includes(theme)
     ) {
 
-        customThemes.push(theme);
+        customThemes.push(
+            theme
+        );
 
         saveCustomThemes();
     }
@@ -418,7 +528,7 @@ function saveCustomTheme() {
 }
 
 // =====================================
-// Number Setup
+// Number Distribution
 // =====================================
 
 function setupNumbers() {
@@ -514,7 +624,7 @@ function nextPlayer() {
 }
 
 // =====================================
-// Discussion
+// Discussion Start
 // =====================================
 
 function startDiscussion() {
@@ -528,95 +638,6 @@ function startDiscussion() {
         "screen-game"
     );
 }
-
-// =====================================
-// Additional Events
-// =====================================
-
-document.addEventListener(
-    "DOMContentLoaded",
-    () => {
-
-        document
-            .getElementById("recheck-btn")
-            .addEventListener(
-                "click",
-                openRecheck
-            );
-
-        document
-            .getElementById("back-to-game-btn")
-            .addEventListener(
-                "click",
-                () => {
-                    showScreen(
-                        "screen-game"
-                    );
-                }
-            );
-
-        document
-            .getElementById("result-input-btn")
-            .addEventListener(
-                "click",
-                openSort
-            );
-
-        document
-            .getElementById("confirm-order-btn")
-            .addEventListener(
-                "click",
-                previewOrder
-            );
-
-        document
-            .getElementById("back-to-sort-btn")
-            .addEventListener(
-                "click",
-                () => {
-                    showScreen(
-                        "screen-sort"
-                    );
-                }
-            );
-
-        document
-            .getElementById("finalize-order-btn")
-            .addEventListener(
-                "click",
-                startReveal
-            );
-
-        document
-            .getElementById("rematch-btn")
-            .addEventListener(
-                "click",
-                rematch
-            );
-
-        document
-            .getElementById("back-top-btn")
-            .addEventListener(
-                "click",
-                backToTop
-            );
-
-        document
-            .getElementById("abort-btn")
-            .addEventListener(
-                "click",
-                abortGame
-            );
-
-        document
-            .getElementById("screen-reveal")
-            .addEventListener(
-                "click",
-                nextReveal
-            );
-
-    }
-);
 
 // =====================================
 // Recheck
@@ -682,8 +703,6 @@ function openRecheck() {
 // =====================================
 // Sort
 // =====================================
-
-let sortableInstance = null;
 
 function openSort() {
 
@@ -786,7 +805,7 @@ function startReveal() {
         )
         .sort(
             (a, b) =>
-                b[1] - a[1]
+                a[1] - b[1]
         );
 
     revealIndex = 0;
@@ -834,7 +853,7 @@ function nextReveal() {
 }
 
 // =====================================
-// Result
+// Results
 // =====================================
 
 function showResults() {
@@ -964,7 +983,7 @@ function backToTop() {
 }
 
 // =====================================
-// Abort
+// Abort Game
 // =====================================
 
 function abortGame() {
